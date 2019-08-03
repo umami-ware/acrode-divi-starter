@@ -1,0 +1,10 @@
+window.acrode||(window.acrode={});
+jQuery(function() {
+	/* Optinal: Cookie Notice Plugin on Menu */
+	jQuery('.ac-cookie-settings').click(function(e) {
+      	e.preventDefault();
+      	acrode.showCookieNotification();
+	});
+	// acrode brand
+	console.log("%cCreated in cooperation with acrode","background: #fff; color: #746baf; font-size: 33px"),console.log("%cCheck out https://acrode.com","background: #fff; color: #a4569d; font-size: 25px"),window.acrode.startPartyMode=function(){jQuery("body").append("<style>@keyframes y{0%,100%{transform:translate3d(0,0,0)}10%,30%,50%,70%,90%{transform:translate3d(-10px,0,0)}20%,40%,60%,80%{transform:translate3d(10px,0,0)}}@keyframes x{20%{transform:rotate3d(0,0,1,15deg)}40%{transform:rotate3d(0,0,1,-10deg)}60%{transform:rotate3d(0,0,1,5deg)}80%{transform:rotate3d(0,0,1,-5deg)}100%{transform:rotate3d(0,0,1,0deg)}}@keyframes z{0%{transform:none}15%{transform:translate3d(-25%,0,0) rotate3d(0,0,1,-5deg)}30%{transform:translate3d(20%,0,0) rotate3d(0,0,1,3deg)}45%{transform:translate3d(-15%,0,0) rotate3d(0,0,1,-3deg)}60%{transform:translate3d(10%,0,0) rotate3d(0,0,1,2deg)}75%{transform:translate3d(-5%,0,0) rotate3d(0,0,1,-1deg)}100%{transform:none}}@keyframes v{0%{color:green}49%{color:red}50%{color:#00f}75%{color:pink}}.q{animation-iteration-count:infinite;display:inline-block;animation-fill-mode:both;box-sizing:border-box;font-smoothing:antialiased;text-rendering:optimizeLegibility}.w{animation-iteration-count:infinite;animation-fill-mode:both;box-sizing:border-box;font-smoothing:antialiased;text-rendering:optimizeLegibility}.y{animation-name:y!important;animation-duration:3.2s!important}.x{transform-origin:top center;animation-name:x!important;animation-duration:2.8s!important}.z{animation-name:z!important;animation-duration:2.2s!important}.v{animation-name:v!important;animation-duration:2.3s!important}</style>");var n=["y","z","x"];jQuery("h1,h2,h3,h4,h5,h6,p,li,button,a,label,img,i,span,div").each(function(t,a){var o=jQuery(a);o.is("div")?o.addClass("w v"):o.addClass("q "+n[Math.floor(Math.random()*n.length)])})};
+});
