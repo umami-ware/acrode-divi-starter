@@ -2,12 +2,15 @@
 /************************************/
 /**** Optional: Development Mode ****/
 /************************************/
-// SETUP BEGIN
-$GLOBALS['acViewSiteKey'] = 'gabriel';
+///
+// SETUP TIME BEGIN
+$GLOBALS['acViewSiteKey'] = 'ac2019';
 $GLOBALS['acReleaseTag'] = 1;
 $GLOBALS['acReleaseMonat'] = 9;
 $GLOBALS['acReleaseJahr'] = 2019;
-// SETUP END
+$GLOBALS['acColorOne'] = '#29a6f6';
+$GLOBALS['acColorTwo'] = '#6251d6';
+// SETUP TIME END
 ///
 function ac_development_design() {
 	$endTime = mktime(0, 0, 0, $GLOBALS['acReleaseMonat'], $GLOBALS['acReleaseTag'], $GLOBALS['acReleaseJahr']); //Stunde, Minute, Sekunde, Monat, Tag, Jahr; 
@@ -28,7 +31,7 @@ function ac_development_design() {
 ?>
 	<style>
 		html {
-			background: linear-gradient(-180deg, #ac32e4, #7918f2, #4801ff) no-repeat !important;
+			background: linear-gradient(-180deg, <?php echo $GLOBALS['acColorOne']; ?> 25%, <?php echo $GLOBALS['acColorTwo']; ?>) no-repeat !important;
 		}
 		body {
 			background: transparent !important;
