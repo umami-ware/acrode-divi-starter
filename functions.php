@@ -8,6 +8,8 @@ $GLOBALS['acViewSiteKey'] = 'ac2019';
 $GLOBALS['acReleaseTag'] = 1;
 $GLOBALS['acReleaseMonat'] = 9;
 $GLOBALS['acReleaseJahr'] = 2019;
+$GLOBALS['hideTimer'] = false;
+$GLOBALS['h2Text'] = 'Die Webseite ist aktuell noch in der Entwicklung';
 $GLOBALS['acColorOne'] = '#29a6f6';
 $GLOBALS['acColorTwo'] = '#6251d6';
 // SETUP TIME END
@@ -60,6 +62,7 @@ function ac_development_design() {
 			display: flex;
 			align-items: center;
     		justify-content: center;
+			<?php echo $GLOBALS['hideTimer'] ? 'display: none' : ''; ?>
 		}
 		.ac-countdown {
 			display: flex;
@@ -112,22 +115,22 @@ function ac_development_design() {
 		}
 	</style>
 	<div class="ac-development-container">
-		<h1>COMING SOON!</h1><h2>Die Webseite ist aktuell noch in der Entwicklung</h2>
+		<h1>COMING SOON!</h1><h2><?php echo $GLOBALS['h2Text']; ?></h2>
 		<div class="ac-countdown-container">
 			<div class="ac-countdown">
-				<span id="ac-days"><?php echo $day; ?></span>
+				<span id="ac-days"><?php echo max($day, 0); ?></span>
 				<span class="ac-unit">Tage</span>
 			</div>
 			<div class="ac-countdown">
-				<span id="ac-hours"><?php echo $hours; ?></span>
+				<span id="ac-hours"><?php echo max($hours, 0); ?></span>
 				<span class="ac-unit">Stunden</span>
 			</div>
 			<div class="ac-countdown">
-				<span id="ac-minutes"><?php echo $mins; ?></span>
+				<span id="ac-minutes"><?php echo max($mins, 0); ?></span>
 				<span class="ac-unit">Minuten</span>
 			</div>
 			<div class="ac-countdown">
-				<span id="ac-seconds"><?php echo $secs; ?></span>
+				<span id="ac-seconds"><?php echo max($secs, 0); ?></span>
 				<span class="ac-unit">Sekunden</span>
 			</div>
 		</div>
@@ -144,10 +147,10 @@ function ac_development_design() {
 			// Find the distance between now and the count down date
 			var distance = countDownDate - now;
 			
-			elDays.innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
-			elHours.innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			elMinutes.innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-			elSeconds.innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
+			elDays.innerHTML = Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24)));
+			elHours.innerHTML = Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+			elMinutes.innerHTML = Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+			elSeconds.innerHTML = Math.max(0, Math.floor((distance % (1000 * 60)) / 1000));
 		}, 1000);
 	</script>
 <?php
