@@ -2,13 +2,12 @@
 /************************************/
 /**** Optional: Development Mode ****/
 /************************************/
-// SETUP TIME BEGIN
+// SETUP BEGIN
 $GLOBALS['acViewSiteKey'] = 'gabriel';
 $GLOBALS['acReleaseTag'] = 1;
 $GLOBALS['acReleaseMonat'] = 9;
 $GLOBALS['acReleaseJahr'] = 2019;
-
-// SETUP TIME END
+// SETUP END
 ///
 function ac_development_design() {
 	$endTime = mktime(0, 0, 0, $GLOBALS['acReleaseMonat'], $GLOBALS['acReleaseTag'], $GLOBALS['acReleaseJahr']); //Stunde, Minute, Sekunde, Monat, Tag, Jahr; 
