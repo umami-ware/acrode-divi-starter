@@ -160,7 +160,7 @@ function ac_link_script() {
 	<script>
 		document.querySelectorAll('a').forEach(function(elem) {
 			elem.addEventListener('click', function(e) {
-				var href = e.target.href,
+				var href = e.target.closest('a').href,
 					location = window.location;
 				if (location.href.split('#').shift() !== href.split('#').shift()) {
 					e.preventDefault();
