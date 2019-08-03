@@ -28,7 +28,7 @@ function ac_development_design() {
 ?>
 	<style>
 		html {
-			background: linear-gradient(-180deg, #ac32e4, #7918f2, #4801ff) !important;
+			background: linear-gradient(-180deg, #ac32e4, #7918f2, #4801ff) no-repeat !important;
 		}
 		body {
 			background: transparent !important;
