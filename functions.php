@@ -6,8 +6,8 @@
 // SETUP TIME BEGIN
 $GLOBALS['acViewSiteKey'] = 'ac2019';
 $GLOBALS['acReleaseTag'] = 1;
-$GLOBALS['acReleaseMonat'] = 9;
-$GLOBALS['acReleaseJahr'] = 2019;
+$GLOBALS['acReleaseMonat'] = 1;
+$GLOBALS['acReleaseJahr'] = 2020;
 $GLOBALS['hideTimer'] = false;
 $GLOBALS['h2Text'] = 'Die Webseite ist aktuell noch in der Entwicklung';
 $GLOBALS['acColorOne'] = '#29a6f6';
@@ -32,12 +32,10 @@ function ac_development_design() {
 	$secs = $diffTime % 60;
 ?>
 	<style>
-		html {
-			background: linear-gradient(-180deg, <?php echo $GLOBALS['acColorOne']; ?> 25%, <?php echo $GLOBALS['acColorTwo']; ?>) no-repeat !important;
-		}
 		body {
 			background: transparent !important;
 			box-shadow: none !important;
+			overflow: hidden;
 		}
 		h1 {
 			font-size: 51px !important;
@@ -54,9 +52,14 @@ function ac_development_design() {
 		}
 		.ac-development-container {
 			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			background: linear-gradient(-180deg, <?php echo $GLOBALS['acColorOne']; ?> 25%, <?php echo $GLOBALS['acColorTwo']; ?>) no-repeat !important;
 		}
 		.ac-countdown-container {
 			display: flex;
@@ -107,7 +110,8 @@ function ac_development_design() {
 				margin: auto;
 				font-size: 26px;
 				line-height: 26px;
-				color: #fff;
+				color: #000;
+				background: #f1f1f1;
 				text-align: center;
 				padding: 0 10px;
 				word-break: break-word;
