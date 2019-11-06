@@ -82,7 +82,7 @@ add_shortcode('acrode_html_sitemap', 'acrode_get_html_sitemap');
 add_filter('post_class', 'acrode_remove_hentry_class');
 
 /* acrode hide editors */
-if(!isset($_GET['acEnableEditor'])) {
+if(!isset($_GET['acAdmin'])) {
 	add_action('admin_menu', 'ac_remove_editor_menu', 1);
 }
 
