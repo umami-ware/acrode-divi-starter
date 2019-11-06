@@ -223,7 +223,7 @@ class AcrodeBrandingFilters
 					background-position: left 0px center;
 				}
 
-				.et_pb_roles_title:before {
+				.et_pb_roles_title:before, .et-tb-admin-container-header:before {
 					background: url(<?php echo self::$acThemeIcon ?>) no-repeat !important;
 					content: '' !important;
 					width: 32px !important;
