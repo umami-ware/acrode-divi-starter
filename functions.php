@@ -1,9 +1,6 @@
 <?php
-/************************************/
+
 /**** Optional: Development Mode ****/
-/************************************/
-///
-// SETUP TIME BEGIN
 $GLOBALS['acViewSiteKey'] = 'ac2019';
 $GLOBALS['acReleaseTag'] = 1;
 $GLOBALS['acReleaseMonat'] = 1;
@@ -12,229 +9,50 @@ $GLOBALS['hideTimer'] = false;
 $GLOBALS['h2Text'] = 'Die Webseite ist aktuell noch in der Entwicklung';
 $GLOBALS['acColorOne'] = '#29a6f6';
 $GLOBALS['acColorTwo'] = '#6251d6';
-// SETUP TIME END
-///
-function ac_development_design() {
-	$endTime = mktime(0, 0, 0, $GLOBALS['acReleaseMonat'], $GLOBALS['acReleaseTag'], $GLOBALS['acReleaseJahr']); //Stunde, Minute, Sekunde, Monat, Tag, Jahr; 
-	//Aktuellezeit des microtimestamps nach PHP5, für PHP4 muss eine andere Form genutzt werden. 
-	$timeNow = microtime(true);
-	//Berechnet differenz von der Endzeit vom jetzigen Zeitpunkt aus. 
-	$diffTime = $endTime - $timeNow;
-	//Zerlegt $diffTime am Dezimalpunkt, rundet vorher auf 2 Stellen nach dem Dezimalpunkt und gibt diese zurück.
-	$milli = explode(".", round($diffTime, 2));
-	$millisec = round($milli[1]); 
-	//Berechnung für Tage, Stunden, Minuten 
-	$day = floor($diffTime / (24*3600));
-	$diffTime = $diffTime % (24*3600);
-	$hours = floor($diffTime / (60*60));
-	$diffTime = $diffTime % (60*60);
-	$mins = floor($diffTime / 60);
-	$secs = $diffTime % 60;
-?>
-	<style>
-		body {
-			background: transparent !important;
-			box-shadow: none !important;
-			overflow: hidden;
-		}
-		h1 {
-			font-size: 51px !important;
-			line-height: 1.1;
-			color: rgba(255,255,255,0.75) !important;
-			text-transform: uppercase;
-			letter-spacing: 10px;
-			text-align: center;
-		}
-		h2 {
-			text-align: center;
-			color: #fff !important;
-			margin-bottom: 50px;
-		}
-		.ac-development-container {
-			position: fixed;
-			top: 0;
-			left: 0;
-			height: 100%;
-			width: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			background: linear-gradient(-180deg, <?php echo $GLOBALS['acColorOne']; ?> 25%, <?php echo $GLOBALS['acColorTwo']; ?>) no-repeat !important;
-		}
-		.ac-countdown-container {
-			display: flex;
-			align-items: center;
-    		justify-content: center;
-			<?php echo $GLOBALS['hideTimer'] ? 'display: none' : ''; ?>
-		}
-		.ac-countdown {
-			display: flex;
-    		flex-direction: column;
-			color: #fff;
-			margin: 0 25px;
-		}
-		.ac-countdown > span:first-child {
-			font-size: 85px;
-		}
-		.ac-unit {
-			text-align: center;
-			font-size: 17px;
-			font-weight: bold;
-			text-transform: uppercase;
-			color: rgba(255,255,255,0.85);
-		}
-		@media (max-width: 620px) {
-			h1 {
-				font-size: 31px !important;
-			}
-			h2 {
-				font-size: 22px !important;
-			}
-			.ac-countdown {
-				margin: 0 10px;
-			}
-			.ac-countdown > span:first-child {
-				font-size: 11vw;
-			}
-			.ac-unit {
-				font-size: 11px;
-			}
-		}
-		@media (max-height: 299px), (max-width: 299px) {
-			body  {
-				display: none !important;
-			}
-			html::after {
-				content: 'Leider ist die Bildschirmgröße zu klein. Bitte besuchen Sie die Seite auf einem Gerät mit einem größerem Bildschirm.';
-				display: block !important;
-				margin: auto;
-				font-size: 26px;
-				line-height: 26px;
-				color: #000;
-				background: #f1f1f1;
-				text-align: center;
-				padding: 0 10px;
-				word-break: break-word;
-			}
-		}
-	</style>
-	<div class="ac-development-container">
-		<h1>COMING SOON!</h1><h2><?php echo $GLOBALS['h2Text']; ?></h2>
-		<div class="ac-countdown-container">
-			<div class="ac-countdown">
-				<span id="ac-days"><?php echo max($day, 0); ?></span>
-				<span class="ac-unit">Tage</span>
-			</div>
-			<div class="ac-countdown">
-				<span id="ac-hours"><?php echo max($hours, 0); ?></span>
-				<span class="ac-unit">Stunden</span>
-			</div>
-			<div class="ac-countdown">
-				<span id="ac-minutes"><?php echo max($mins, 0); ?></span>
-				<span class="ac-unit">Minuten</span>
-			</div>
-			<div class="ac-countdown">
-				<span id="ac-seconds"><?php echo max($secs, 0); ?></span>
-				<span class="ac-unit">Sekunden</span>
-			</div>
-		</div>
-	</div>
-	<script>
-		var countDownDate = new Date(<?php echo $endTime; ?>*1000).getTime();
-			elDays = document.getElementById("ac-days"),
-			elHours = document.getElementById("ac-hours"),
-			elMinutes = document.getElementById("ac-minutes"),
-			elSeconds = document.getElementById("ac-seconds");
-		var x = setInterval(function() {
-			// Get today's date and time
-			var now = new Date().getTime();
-			// Find the distance between now and the count down date
-			var distance = countDownDate - now;
-			
-			elDays.innerHTML = Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24)));
-			elHours.innerHTML = Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-			elMinutes.innerHTML = Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-			elSeconds.innerHTML = Math.max(0, Math.floor((distance % (1000 * 60)) / 1000));
-		}, 1000);
-	</script>
-<?php
-}
-function ac_link_script() {
-?>
-	<script>
-		document.querySelectorAll('a').forEach(function(elem) {
-			elem.addEventListener('click', function(e) {
-				var href = e.target.closest('a').href,
-					location = window.location;
-				if (location.href.split('#').shift() !== href.split('#').shift()) {
-					e.preventDefault();
-					var splitHash = href.split('#'),
-						getParams = location.search.substr(1),
-						newLink;
-					if (splitHash[0].indexOf('?') === -1) {
-						newLink = splitHash.shift() + '?' + getParams;
-					}
-					else {
-						newLink = splitHash.shift() + '&' + getParams;
-					}
-					if (splitHash.length) {
-						newLink += '#' + splitHash.join('');
-					}
-					window.location.href = newLink;
-				}
-			});
-		});
-	</script>
-<?php
-}
-function ac_development_mode() {
-	$showSite = $_GET['viewSiteKey'];
-    if($showSite !== $GLOBALS['acViewSiteKey'] && (!current_user_can('edit_themes') || !is_user_logged_in())) {
-        wp_die(ac_development_design());
-    } else {
-		add_action('wp_footer', 'ac_link_script');
-	}
-}
-add_action('get_header', 'ac_development_mode');
+include_once(__DIR__ . '/includes/ac_development.php');
 
-/***************************************************/
+/**** Optional: Branding ****/
+include_once(__DIR__ . '/includes/ac_branding.php');
+
 /**** Optional: Add global Divi module anywhere ****/
-/***************************************************/
-function acrode_show_gdivi_module_shortcode($gdId) {
-	extract(shortcode_atts(array('id' =>'*'), $gdId)); 
-	return do_shortcode('[et_pb_section global_module="'.$id.'"][/et_pb_section]');
+function acrode_show_gdivi_module_shortcode($gdId)
+{
+	extract(shortcode_atts(array('id' => '*'), $gdId));
+	return do_shortcode('[et_pb_section global_module="' . $id . '"][/et_pb_section]');
 }
 add_shortcode('acrode_gdivi_module', 'acrode_show_gdivi_module_shortcode');
 
-/************************/
 /**** Necessary Code ****/
-/************************/
-function acrode_enqueue() {
-    wp_enqueue_style('parent-style', get_template_directory_uri().'/style.css');
-	wp_enqueue_script('custom-scripts', get_stylesheet_directory_uri().'/script.js', array('jquery'));
+/* acrode theme */
+function acrode_enqueue()
+{
+	wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
+	wp_enqueue_script('custom-scripts', get_stylesheet_directory_uri() . '/script.js', array('jquery'));
 }
 /* acrode remove type from style tags */
-function acrode_codeless_remove_type_attr($tag) {
-    return preg_replace('/type=[\'"]text\/(css|javascript)[\'"]/', '', $tag);
+function acrode_codeless_remove_type_attr($tag)
+{
+	return preg_replace('/type=[\'"]text\/(css|javascript)[\'"]/', '', $tag);
 }
 /* acrode get html sitemap */
-function acrode_get_html_sitemap($atts) {
+function acrode_get_html_sitemap($atts)
+{
 	$return = '';
 	$args = array('public' => 1);
 	$ignoreposttypes = array('attachment', 'project');
 	$post_types = get_post_types($args, 'objects');
 	foreach ($post_types as $post_type) {
-		if( !in_array($post_type->name, $ignoreposttypes)) {
-			$return .= '<h2>'.$post_type->labels->name.'</h2>';
+		if (!in_array($post_type->name, $ignoreposttypes)) {
+			$return .= '<h2>' . $post_type->labels->name . '</h2>';
 			$args = array(
 				'posts_per_page' => -1,
 				'post_type' => $post_type->name,
 				'post_status' => 'publish'
 			);
-			$posts_array = get_posts($args); 
+			$posts_array = get_posts($args);
 			$return .=  '<ul>';
-			foreach($posts_array as $pst) {
-				$return .=  '<li><a title="' . $pst->post_title.'" href="'.get_permalink($pst->ID).'">'.$pst->post_title.'</a></li>';
+			foreach ($posts_array as $pst) {
+				$return .=  '<li><a title="' . $pst->post_title . '" href="' . get_permalink($pst->ID) . '">' . $pst->post_title . '</a></li>';
 			}
 			$return .=  '</ul>';
 		}
@@ -242,10 +60,18 @@ function acrode_get_html_sitemap($atts) {
 	return $return;
 }
 /* acrode remove hEntry */
-function acrode_remove_hentry_class($classes) {
+function acrode_remove_hentry_class($classes)
+{
 	$classes = array_diff($classes, array('hentry'));
 	return $classes;
 }
+/* acrode hide editors */
+function ac_remove_editor_menu() {
+	remove_action('admin_menu', '_add_themes_utility_last', 101);
+	remove_submenu_page( 'plugins.php','plugin-editor.php' );
+}
+
+/* acrode theme */
 add_action('wp_enqueue_scripts', 'acrode_enqueue');
 /* acrode set filter for style and script tags */
 add_filter('style_loader_tag', 'acrode_codeless_remove_type_attr', 10, 2);
@@ -255,13 +81,19 @@ add_shortcode('acrode_html_sitemap', 'acrode_get_html_sitemap');
 /* acrode remove hEntry filter */
 add_filter('post_class', 'acrode_remove_hentry_class');
 
+/* acrode hide editors */
+if(!isset($_GET['acEnableEditor'])) {
+	add_action('admin_menu', 'ac_remove_editor_menu', 1);
+}
+
 /* acrode remove pages from search */
 if (!is_admin()) {
-	function wpb_search_filter($query) {
+	function wpb_search_filter($query)
+	{
 		if ($query->is_search) {
 			$query->set('post_type', 'post');
 		}
 		return $query;
 	}
-	add_filter('pre_get_posts','wpb_search_filter');
+	add_filter('pre_get_posts', 'wpb_search_filter');
 }
