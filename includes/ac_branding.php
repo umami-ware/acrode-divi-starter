@@ -317,7 +317,9 @@ class AcrodeBrandingFilters
 			}
 
 			// Frontend Branding
-			add_action('wp_footer', array('AcrodeBrandingFilters', 'frontend_backlink'));
+			if (self::$acThemeShowFrontendIcon) {
+				add_action('wp_footer', array('AcrodeBrandingFilters', 'frontend_backlink'));
+			}
 
 			// White label Login
 			add_action('login_head', array('AcrodeBrandingFilters', 'custom_login_logo'));
