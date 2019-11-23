@@ -1,7 +1,7 @@
 <?php
 /**** Necessary Code ****/
 // https://github.com/YahnisElsts/plugin-update-checker v.4.8.1
-require __DIR__ . '/includes/plugin-update-checker/plugin-update-checker.php';
+require __DIR__ . '/acrode/plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'https://wordpress.acrode.com/wp-update-server/?action=get_metadata&slug=acrode-divi-starter',
 	__FILE__, //Full path to the main plugin file or functions.php.
@@ -9,16 +9,17 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 );
 /* acrode theme */
 // custom files
-$acCustomTheme = ABSPATH . '/acrode/theme';
+$acCustomTheme = file_exists(ABSPATH . 'wp-content/acrode/themes/acrode-divi-starter');
 if ($acCustomTheme) {
-	require ABSPATH . '/wp-content/acrode/theme/custom.php';
+	require ABSPATH . 'wp-content/acrode/themes/acrode-divi-starter/acrode/settings.php';
+	require ABSPATH . 'wp-content/acrode/themes/acrode-divi-starter/acrode/custom.php';
 }
 
 if ($acDevelopment) {
-	include_once(__DIR__ . '/includes/ac_development.php');
+	require __DIR__ . '/acrode/development.php';
 }
 if ($acBranding) {
-	include_once(__DIR__ . '/includes/ac_branding.php');
+	require __DIR__ . '/acrode/branding.php';
 }
 
 function acrode_enqueue()
@@ -28,8 +29,8 @@ function acrode_enqueue()
 	// custom files
 	global $acCustomTheme;
 	if ($acCustomTheme) {
-		wp_enqueue_style('parent-style', '/wp-content/acrode/theme/style.css');
-		wp_enqueue_script('custom-scripts', '/wp-content/acrode/theme/script.js', array('jquery'));
+		wp_enqueue_style('parent-style', '/wp-content/acrode/themes/acrode-divi-starter/acrode/style.css');
+		wp_enqueue_script('custom-scripts', '/wp-content/acrode/themes/acrode-divi-starter/acrode/script.js', array('jquery'));
 	}
 }
 /* acrode remove type from style tags */
