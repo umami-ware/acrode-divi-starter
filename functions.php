@@ -8,18 +8,17 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'acrode-divi-starter'
 );
 /* acrode theme */
-// custom files
 $acCustomTheme = file_exists(ABSPATH . 'wp-content/acrode/themes/acrode-divi-starter');
 if ($acCustomTheme) {
 	require ABSPATH . 'wp-content/acrode/themes/acrode-divi-starter/acrode/settings.php';
 	require ABSPATH . 'wp-content/acrode/themes/acrode-divi-starter/acrode/custom.php';
-}
 
-if ($acDevelopment) {
-	require __DIR__ . '/acrode/development.php';
-}
-if ($acBranding) {
-	require __DIR__ . '/acrode/branding.php';
+	if ($acDevelopment) {
+		require __DIR__ . '/acrode/development.php';
+	}
+	if ($acBranding) {
+		require __DIR__ . '/acrode/branding.php';
+	}
 }
 
 function acrode_enqueue()
@@ -74,7 +73,10 @@ function ac_remove_editor_menu() {
 	remove_action('admin_menu', '_add_themes_utility_last', 101);
 	remove_submenu_page( 'plugins.php','plugin-editor.php' );
 }
-
+/* Hide WP version */
+function remove_version_info() {
+	return '';
+}
 /* acrode remove pages from search */
 if (!is_admin()) {
 	function wpb_search_filter($query)
@@ -93,11 +95,9 @@ if(!isset($_GET['acAdmin'])) {
 }
 
 /* acrode theme */
-add_action('wp_enqueue_scripts', 'acrode_enqueue');
-/* acrode set filter for style and script tags */
+add_shortcode('acrode_html_sitemap', 'acrode_get_html_sitemap');
 add_filter('style_loader_tag', 'acrode_codeless_remove_type_attr', 10, 2);
 add_filter('script_loader_tag', 'acrode_codeless_remove_type_attr', 10, 2);
-/* acrode add html sitemap shortcode */
-add_shortcode('acrode_html_sitemap', 'acrode_get_html_sitemap');
-/* acrode remove hEntry filter */
 add_filter('post_class', 'acrode_remove_hentry_class');
+add_filter('the_generator', 'remove_version_info');
+add_action('wp_enqueue_scripts', 'acrode_enqueue');
