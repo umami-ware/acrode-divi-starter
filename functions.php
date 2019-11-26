@@ -22,10 +22,10 @@ $acDevelopment = false;
 $acBrandingFrontend = true;
 $acBrandingBackend = true;
 /* Theme */
-$acCustomTheme = is_dir(ABSPATH . 'wp-content/acrode/acrode-divi-starter');
+$acCustomTheme = is_dir(ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode');
 if ($acCustomTheme) {
-	require ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
-	require ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/custom.php';
+	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
+	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/custom.php';
 }
 if ($acDevelopment) {
 	require __DIR__ . '/acrode/development.php';
