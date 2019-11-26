@@ -1,6 +1,2 @@
 <?php
-if (file_exists(ABSPATH . '/acrode/theme/sidebar.php')) {
-	require ABSPATH . '/acrode/theme/sidebar.php';
-} else {
-    require ABSPATH . '/wp-content/themes/Divi/sidebar.php';
-}
+require ABSPATH . ( is_file(ABSPATH . 'wp-content/acrode/acrode-divi-starter/sidebar.php') ? 'wp-content/acrode/acrode-divi-starter/sidebar.php' : 'wp-content/themes/Divi/sidebar.php' );

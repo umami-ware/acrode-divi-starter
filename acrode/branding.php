@@ -3,8 +3,6 @@ class AcrodeBrandingFilters
 {
 	public static $acTheme = 'acrode';
 	public static $acThemeIcon = '/wp-content/themes/acrode-divi-starter/img/acrode.svg';
-	public static $acThemeShowFrontendIcon = true;
-	public static $acThemeFrontendIcon = '/wp-content/themes/acrode-divi-starter/img/acrode.svg';
 
 	public static function filterAdminBarMenu($admin_bar)
 	{
@@ -90,7 +88,7 @@ class AcrodeBrandingFilters
 
 			public static function modifyAdminMenu()
 			{
-				global $menu, $submenu;
+				global $menu;
 
 				foreach ($menu as $key => $item) {
 					if ($item[0] === 'Divi') {
@@ -100,7 +98,6 @@ class AcrodeBrandingFilters
 				// Remove Divi Support Page
 				remove_submenu_page('et_divi_options', 'et_support_center_divi');
 				remove_submenu_page('rocket_manage_options', 'options-general.php?page=wprocket#dashboard');
-				//var_dump($submenu);
 			}
 
 			public static function filterPortabilityArgs($args)
@@ -238,20 +235,20 @@ class AcrodeBrandingFilters
 					display: none;
 				}
 			</style>
-		<?php
-			}
+	<?php
+		}
 
-			public static function filterBuilderHelpVideos()
-			{
-				return array();
-			}
+		public static function filterBuilderHelpVideos()
+		{
+			return array();
+		}
 
-			public static function custom_login_logo()
-			{
-				echo '<style type ="text/css">.login h1 a { display:none!important; }</style>';
-			}
+		public static function custom_login_logo()
+		{
+			echo '<style type ="text/css">.login h1 a { display:none!important; }</style>';
+		}
 
-			/*
+		/*
 			public static function onThemeSetUp()
 			{
 				global $themename;
@@ -259,31 +256,12 @@ class AcrodeBrandingFilters
 			}
 			*/
 
-			public static function kill_divi($themes)
-			{
-				unset($themes['Divi']);
-				return $themes;
-			}
-
-			public static function frontend_backlink()
-			{
-				?>
-			<style>
-				body {
-					position: relative;
-				}
-
-				#acrode-wpauthor {
-					position: absolute;
-					left: 3px;
-					bottom: 3px;
-					height: 21px;
-					width: 21px;
-				}
-			</style>
-			<a id="acrode-wpauthor" href="https://acrode.com" target="_blank" title="WordPress Theme Author"><img width="21px" src="<?php echo self::$acThemeFrontendIcon ?>"></a>
-	<?php
+		public static function kill_divi($themes)
+		{
+			unset($themes['Divi']);
+			return $themes;
 		}
+
 
 		public static function setup()
 		{
@@ -303,7 +281,6 @@ class AcrodeBrandingFilters
 				add_action('et_pb_before_page_builder', array('AcrodeBrandingFilters', 'builderScript'));
 
 				add_filter('display_post_states', array('AcrodeBrandingFilters', 'filterPostStates'), 9999);
-				//add_filter('et_builder_settings_definitions', array('AcrodeBrandingFilters', 'filterThemeOptionsDefinitionsBuilder'));
 				self::addTranslateFilters();
 
 				// Remove the translate filters before the plugins list (will be restored after the plugins list)
@@ -316,11 +293,6 @@ class AcrodeBrandingFilters
 				if (isset($_GET['page']) && $_GET['page'] == 'et_divi_options') {
 					add_filter('et_core_portability_args_epanel', array('AcrodeBrandingFilters', 'filterPortabilityArgs'));
 				}
-			}
-
-			// Frontend Branding
-			if (self::$acThemeShowFrontendIcon) {
-				add_action('wp_footer', array('AcrodeBrandingFilters', 'frontend_backlink'));
 			}
 
 			// White label Login
