@@ -262,6 +262,24 @@ class AcrodeBrandingFilters
 			return $themes;
 		}
 
+		public static function hide_plugins_network( $plugins ) {
+			if( in_array( 'wp-rocket/wp-rocket.php', array_keys( $plugins ) ) ) {
+				unset( $plugins['akismet/akismet.php'] );
+			}
+			return $plugins;
+		}
+		
+		public static function hide_plugins() {
+		  global $wp_list_table;
+		  $hidearr = array('wp-rocket/wp-rocket.php');
+		  $myplugins = $wp_list_table->items;
+		  foreach ($myplugins as $key => $val) {
+			if (in_array($key,$hidearr)) {
+			  unset($wp_list_table->items[$key]);
+			}
+		  }
+		}
+
 
 		public static function setup()
 		{
@@ -298,8 +316,16 @@ class AcrodeBrandingFilters
 			// White label Login
 			add_action('login_head', array('AcrodeBrandingFilters', 'custom_login_logo'));
 
-			// Kill Divi theme
-			add_filter('wp_prepare_themes_for_js', array('AcrodeBrandingFilters', 'kill_divi'));
+			// Kill Divi and plugins
+			if (is_admin()) {
+				add_filter('wp_prepare_themes_for_js', array('AcrodeBrandingFilters', 'kill_divi'));
+
+				if (is_multisite()) {
+					add_filter('all_plugins', array('AcrodeBrandingFilters', 'hide_plugins_network'));
+				} else {
+					add_action('pre_current_active_plugins', array('AcrodeBrandingFilters', 'hide_plugins'));
+				}
+			}
 		}
 	}
 

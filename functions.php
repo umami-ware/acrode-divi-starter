@@ -111,7 +111,7 @@ function acrode_frontend_backlink()
 }
 /* Override default footer */
 function et_get_original_footer_credits() {
-	return sprintf( __( 'Designed by %1$s | Powered by %2$s', 'Divi' ), '<a href="https://acrode.com" title="acrode | Digital Engineers" target="_blank">acrode</a>', '<a href="http://www.wordpress.org">WordPress</a>' );
+	return sprintf( __('Designed by %1$s | Powered by %2$s', 'Divi' ), '<a href="https://acrode.com" title="acrode | Digital Engineers" target="_blank">acrode</a>', '<a href="http://www.wordpress.org">WordPress</a>');
 }
 /* Hide login errors */
 function no_wordpress_errors() {
@@ -139,7 +139,7 @@ if (!isset($_GET['acAdmin'])) {
 
 
 function login_function() {
-    add_filter( 'gettext', 'username_change', 20, 3 );
+    add_filter('gettext', 'username_change', 20, 3);
     function username_change( $translated_text, $text ) 
     {
         if ($text === 'Username or Email Address') 
