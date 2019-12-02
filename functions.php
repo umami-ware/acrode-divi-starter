@@ -24,8 +24,8 @@ $acBrandingBackend = true;
 /* Theme */
 $acCustomTheme = is_dir(ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode');
 if ($acCustomTheme) {
-	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
-	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/custom.php';
+	@include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
+	@include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/custom.php';
 }
 if ($acDevelopment) {
 	require __DIR__ . '/acrode/development.php';
