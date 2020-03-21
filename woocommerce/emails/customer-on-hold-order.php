@@ -1,0 +1,2 @@
+<?php
+require ABSPATH . ( is_file(ABSPATH . 'wp-content/acrode/acrode-divi-starter/woocommerce/emails/customer-on-hold-order.php') ? 'wp-content/acrode/acrode-divi-starter/woocommerce/emails/customer-on-hold-order.php' : 'wp-content/plugins/woocommerce/templates/emails/customer-on-hold-order.php' );
