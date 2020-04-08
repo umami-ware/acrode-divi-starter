@@ -3,10 +3,14 @@
 // https://github.com/YahnisElsts/plugin-update-checker v.4.8.1
 require __DIR__ . '/acrode/plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://wordpress.acrode.com/wp-update-server/?action=get_metadata&slug=acrode-divi-starter',
+	'https://github.com/umami-ware/acrode-divi-starter',
 	__FILE__, //Full path to the main plugin file or functions.php.
 	'acrode-divi-starter'
 );
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+
+$myUpdateChecker->setBranch('stable');
+
 // Settings
 /*$acDevelopment = [
 	'releaseMonth' => 1,
