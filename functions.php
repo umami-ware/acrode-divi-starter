@@ -26,6 +26,15 @@ $acDevelopment = false;
 $acBrandingFrontend = true;
 $acBrandingBackend = true;
 /* Theme */
+if (is_admin()) {
+	if (isset($_COOKIE['isAcrodeAdmin'])) {
+		$acBrandingBackend = !filter_var($_COOKIE['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
+	} else if (isset($_GET['isAcrodeAdmin'])) {
+		$cookieValue = filter_var($_GET['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
+		setcookie('isAcrodeAdmin', $cookieValue);
+		$acBrandingBackend = !$cookieValue;
+	}
+}
 $acCustomTheme = is_dir(ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode');
 if ($acCustomTheme) {
 	@include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
