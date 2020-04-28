@@ -23,13 +23,28 @@ $myUpdateChecker->setBranch('stable');
 	'viewSiteKey' => 'ac2020'
 ];*/
 $acDevelopment = false;
+$acMultisiteSiteConfigs = false;
 $acBrandingFrontend = true;
 $acBrandingBackend = true;
 /* Theme */
+if (is_admin()) {
+	if (isset($_COOKIE['isAcrodeAdmin'])) {
+		$acBrandingBackend = !filter_var($_COOKIE['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
+	} else if (isset($_GET['isAcrodeAdmin'])) {
+		$cookieValue = filter_var($_GET['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
+		setcookie('isAcrodeAdmin', $cookieValue);
+		$acBrandingBackend = !$cookieValue;
+	}
+}
 $acCustomTheme = is_dir(ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode');
 if ($acCustomTheme) {
-	@include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
-	@include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/custom.php';
+	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
+	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/custom.php';
+	$acMultisiteSiteConfigs = is_multisite() && $acMultisiteSiteConfigs;
+	if ($acMultisiteCustomConfigs) {
+		include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/' . get_current_blog_id() . '/settings.php';
+		include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/' . get_current_blog_id() . '/custom.php';
+	}
 }
 if ($acDevelopment) {
 	require __DIR__ . '/acrode/development.php';
@@ -46,6 +61,12 @@ function acrode_enqueue()
 	if ($acCustomTheme) {
 		wp_enqueue_style('custom-style', '/wp-content/acrode/acrode-divi-starter/acrode/style.css');
 		wp_enqueue_script('custom-scripts', '/wp-content/acrode/acrode-divi-starter/acrode/script.js', array('jquery'));
+	}
+
+	global $acMultisiteSiteConfigs;
+	if ($acMultisiteSiteConfigs) {
+		wp_enqueue_style('custom-style-current-site', '/wp-content/acrode/acrode-divi-starter/acrode/' . get_current_blog_id() . '/style.css');
+		wp_enqueue_script('custom-scripts-current-site', '/wp-content/acrode/acrode-divi-starter/acrode/' . get_current_blog_id() . '/script.js', array('jquery'));
 	}
 }
 /* Remove type from style tags */
