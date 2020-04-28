@@ -30,7 +30,8 @@ $acBrandingBackend = true;
 if (is_admin()) {
 	if (isset($_COOKIE['isAcrodeAdmin'])) {
 		$acBrandingBackend = !filter_var($_COOKIE['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
-	} else if (isset($_GET['isAcrodeAdmin'])) {
+	}
+	if (isset($_GET['isAcrodeAdmin'])) {
 		$cookieValue = filter_var($_GET['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
 		setcookie('isAcrodeAdmin', $cookieValue);
 		$acBrandingBackend = !$cookieValue;
