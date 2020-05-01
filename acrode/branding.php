@@ -1,7 +1,7 @@
 <?php
 class AcrodeBrandingFilters
 {
-	public static $acTheme = 'acrode';
+	public static $acTheme = 'Acrode Builder';
 	public static $acThemeIcon = '/wp-content/themes/acrode-divi-starter/img/acrode.svg';
 
 	public static function filterAdminBarMenu($admin_bar)
@@ -93,7 +93,7 @@ class AcrodeBrandingFilters
 		foreach ($menu as $key => $item) {
 			if ($item[0] === 'Divi') {
 				$menu[$key][0] = self::$acTheme;
-			} else if (!in_array($item[2], array('index.php', 'edit.php', 'edit.php?post_type=page', 'edit.php?post_type=project', 'upload.php', 'tools.php', 'options-general.php', 'edit-comments.php'))) {
+			} else if (!in_array($item[2], array('index.php', 'edit.php', 'edit.php?post_type=page', 'users.php', 'edit.php?post_type=project', 'upload.php', 'tools.php', 'options-general.php', 'edit-comments.php'))) {
 				remove_menu_page($item[2]);
 			}
 		}
@@ -101,6 +101,24 @@ class AcrodeBrandingFilters
 		remove_submenu_page('options-general.php', 'wprocket');
 		remove_submenu_page('et_divi_options', 'et_support_center_divi');
 	}
+
+	public static function modifyAdminMenuNetwork()
+	{
+		global $menu;
+
+		foreach ($menu as $key => $item) {
+			if (!in_array($item[2], array('index.php', 'users.php'))) {
+				remove_menu_page($item[2]);
+			}
+		}
+	}
+
+	public static function removeToolbarNodes($wp_admin_bar)
+	{
+		$wp_admin_bar->remove_node('comments');
+		$wp_admin_bar->remove_node('kinsta-cache');
+	}
+
 
 	public static function filterPortabilityArgs($args)
 	{
@@ -134,6 +152,27 @@ class AcrodeBrandingFilters
 	{
 	?>
 		<style>
+			#wp-admin-bar-wp-logo {
+				pointer-events: none;
+			}
+
+			#wpadminbar #wp-admin-bar-wp-logo>.ab-item .ab-icon:before {
+				background-image: url(<?php echo self::$acThemeIcon ?>) !important;
+				background-position: 50% 50%;
+				color: rgba(0, 0, 0, 0);
+				background-size: contain;
+				background-repeat: no-repeat;
+				color: rgba(0, 0, 0, 0);
+			}
+
+			#wpadminbar #wp-admin-bar-wp-logo.hover>.ab-item .ab-icon {
+				background-position: 0 0;
+			}
+
+			#wp-admin-bar-wp-rocket {
+				display: none !important;
+			}
+
 			#adminmenu #toplevel_page_et_divi_options div.wp-menu-image::before,
 			#adminmenu #toplevel_page_et_divi_100_options div.wp-menu-image::before {
 				background: url(<?php echo self::$acThemeIcon ?>) no-repeat !important;
@@ -284,6 +323,10 @@ class AcrodeBrandingFilters
 		}
 	}*/
 
+	public static function removeFooterAdmin()
+	{
+		echo '<span id="footer-thankyou">Created by <a href="https://acrode.com" target="_blank">Acrode</a>. Thanks for your trust!</span>';
+	}
 
 	public static function setup()
 	{
@@ -296,8 +339,13 @@ class AcrodeBrandingFilters
 		add_filter('option_et_bfb_settings', array('AcrodeBrandingFilters', 'filterWpOption'), 10, 2);
 		add_filter('et_fb_help_videos', array('AcrodeBrandingFilters', 'filterBuilderHelpVideos'));
 
+		add_action('admin_bar_menu', array('AcrodeBrandingFilters', 'removeToolbarNodes'), 9999);
 		if (is_admin()) {
+			add_filter('admin_footer_text', array('AcrodeBrandingFilters', 'removeFooterAdmin'), 9999);
 			add_action('admin_menu', array('AcrodeBrandingFilters', 'modifyAdminMenu'), 9999);
+			if (!is_multisite()) {
+				add_action('network_admin_menu', array('AcrodeBrandingFilters', 'modifyAdminMenuNetwork'), 9999);
+			}
 			add_action('admin_head', array('AcrodeBrandingFilters', 'adminCssJs'));
 
 			add_action('et_pb_before_page_builder', array('AcrodeBrandingFilters', 'builderScript'));
@@ -315,6 +363,8 @@ class AcrodeBrandingFilters
 			if (isset($_GET['page']) && $_GET['page'] == 'et_divi_options') {
 				add_filter('et_core_portability_args_epanel', array('AcrodeBrandingFilters', 'filterPortabilityArgs'));
 			}
+		} else {
+			add_filter('show_admin_bar', '__return_false');
 		}
 
 		// White label Login
