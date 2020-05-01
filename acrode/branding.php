@@ -3,6 +3,7 @@ class AcrodeBrandingFilters
 {
 	public static $acTheme = 'Acrode Builder';
 	public static $acThemeIcon = '/wp-content/themes/acrode-divi-starter/img/acrode.svg';
+	public static $acThemeLogo = '/wp-content/themes/acrode-divi-starter/img/acrode-full.svg';
 
 	public static function filterAdminBarMenu($admin_bar)
 	{
@@ -113,10 +114,28 @@ class AcrodeBrandingFilters
 		}
 	}
 
-	public static function removeToolbarNodes($wp_admin_bar)
+	public static function customAdminbar($wp_admin_bar)
 	{
 		$wp_admin_bar->remove_node('comments');
 		$wp_admin_bar->remove_node('kinsta-cache');
+
+		$user_data         = wp_get_current_user();
+		$user_display_name = isset($user_data->display_name) ? $user_data->display_name : false;
+		$user_id           = isset($user_data->ID) ? (int) $user_data->ID : 0;
+		if (!$user_id || !$user_display_name) {
+			return;
+		}
+		$user_avatar = get_avatar($user_id, 26);  // translators: %s: Current user's display name
+		$my_account_text = sprintf(
+			__('Hey, %s'),
+			'<span class="display-name">' . esc_html($user_data->display_name) . '</span>'
+		);
+		$wp_admin_bar->add_node(
+			array(
+				'id'    => 'my-account',
+				'title' => $my_account_text . $user_avatar,
+			)
+		);
 	}
 
 
@@ -169,7 +188,8 @@ class AcrodeBrandingFilters
 				background-position: 0 0;
 			}
 
-			#wp-admin-bar-wp-rocket {
+			#wp-admin-bar-wp-rocket,
+			#wp-version-message {
 				display: none !important;
 			}
 
@@ -284,9 +304,20 @@ class AcrodeBrandingFilters
 		return array();
 	}
 
-	public static function custom_login_logo()
+	public static function customLoginLogo()
 	{
-		echo '<style type ="text/css">.login h1 a { display:none!important; }</style>';
+		$logo_style = '.login h1 a { background-image: url(' . esc_url(self::$acThemeLogo) . '); background-size: 100% auto; width: 100%; }';
+		wp_add_inline_style('login', $logo_style);
+	}
+
+	public static function customLoginLogoUrl()
+	{
+		return esc_url(home_url());
+	}
+
+	public static function customLoginLogoTitle()
+	{
+		return esc_html__(get_the_title(), 'et-text-domain');
 	}
 
 	/*
@@ -328,6 +359,52 @@ class AcrodeBrandingFilters
 		echo '<span id="footer-thankyou">Created by <a href="https://acrode.com" target="_blank">Acrode</a>. Thanks for your trust!</span>';
 	}
 
+	/**
+	 * Add theme info widget into WordPress Dashboard
+	 */
+	public static function setupDashboardWidgets()
+	{
+		remove_meta_box('wpseo-dashboard-overview', 'dashboard', 'normal');
+
+		remove_meta_box('dashboard_plugins', 'dashboard', 'normal');
+		remove_meta_box('dashboard_primary', 'dashboard', 'side');
+		remove_meta_box('dashboard_secondary', 'dashboard', 'normal');
+		remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
+		remove_meta_box('dashboard_right_now', 'dashboard', 'normal');
+		remove_meta_box('dashboard_activity', 'dashboard', 'normal');
+		remove_meta_box('woocommerce_dashboard_recent_reviews', 'dashboard', 'normal');
+		remove_meta_box('dashboard_site_health', 'dashboard', 'normal');
+
+		wp_add_dashboard_widget(
+			'et_dashboard_widget_info',
+			esc_html__('Theme Details', 'et-text-domain'),
+			array('AcrodeBrandingFilters', 'dashboardWidgetInfoRender')
+		);
+	}
+	/**
+	 * Render the content of theme info widget
+	 */
+	public static function dashboardWidgetInfoRender()
+	{
+		$content = __('
+		<a href="https://acrode.com/" title="Acrode" target="_blank"><img width="50%" style="max-width: 270px" src="' . self::$acThemeLogo . '" alt="Acrode" /></a>
+	  <ul>
+		<li>
+		  <strong>Created By:</strong> Acrode
+		</li>
+		<li>
+		  <strong>Website:</strong> <a title="Acrode" href="https://acrode.com/">acrode.com/</a>
+		</li>
+		<li>
+		  <strong>Contact:</strong> <a title="Acrode" href="https://acrode.com/#contact">Let\'s get in contact!</a>
+		</li>
+		<li>
+		  <strong>Support:</strong> <a title="Acrode Support" href="mailto:support@acrode.com?subject=Support: ' . get_site_url() . '">support@acrode.com</a>
+		</li>
+	  </ul>', 'et-text-domain');
+		echo wp_kses_post($content);
+	}
+
 	public static function setup()
 	{
 		// TODO: Fix language Bug on name change
@@ -339,8 +416,10 @@ class AcrodeBrandingFilters
 		add_filter('option_et_bfb_settings', array('AcrodeBrandingFilters', 'filterWpOption'), 10, 2);
 		add_filter('et_fb_help_videos', array('AcrodeBrandingFilters', 'filterBuilderHelpVideos'));
 
-		add_action('admin_bar_menu', array('AcrodeBrandingFilters', 'removeToolbarNodes'), 9999);
+		add_action('admin_bar_menu', array('AcrodeBrandingFilters', 'customAdminbar'), 9999);
+
 		if (is_admin()) {
+			add_action('wp_dashboard_setup', array('AcrodeBrandingFilters', 'setupDashboardWidgets'));
 			add_filter('admin_footer_text', array('AcrodeBrandingFilters', 'removeFooterAdmin'), 9999);
 			add_action('admin_menu', array('AcrodeBrandingFilters', 'modifyAdminMenu'), 9999);
 			if (!is_multisite()) {
@@ -368,7 +447,9 @@ class AcrodeBrandingFilters
 		}
 
 		// White label Login
-		add_action('login_head', array('AcrodeBrandingFilters', 'custom_login_logo'));
+		add_action('login_enqueue_scripts', array('AcrodeBrandingFilters', 'customLoginLogo'));
+		add_filter('login_headerurl', array('AcrodeBrandingFilters', 'customLoginLogoUrl'));
+		add_filter('login_headertext', array('AcrodeBrandingFilters', 'customLoginLogoTitle'));
 
 		// Kill Divi and plugins
 		/*if (is_admin()) {
