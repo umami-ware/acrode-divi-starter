@@ -29,12 +29,10 @@ $acBrandingBackend = true;
 /* Theme */
 if (isset($_COOKIE['isAcrodeAdmin'])) {
 	$acBrandingBackend = $_COOKIE['isAcrodeAdmin'] != true && $_COOKIE['isAcrodeAdmin'] != 1;
-} else if (is_admin()) {
-	if (isset($_GET['isAcrodeAdmin'])) {
-		$cookieValue = $_GET['isAcrodeAdmin'] != true && $_GET['isAcrodeAdmin'] != 1;
-		setcookie('isAcrodeAdmin', $cookieValue);
-		$acBrandingBackend = !$cookieValue;
-	}
+} else if (is_admin() && isset($_GET['isAcrodeAdmin'])) {
+	$cookieValue = $_GET['isAcrodeAdmin'] == true || $_GET['isAcrodeAdmin'] == 1;
+	setcookie('isAcrodeAdmin', $cookieValue);
+	$acBrandingBackend = !$cookieValue;
 }
 $acCustomTheme = is_dir(ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode');
 if ($acCustomTheme) {
