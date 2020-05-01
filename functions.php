@@ -19,7 +19,7 @@ $myUpdateChecker->setBranch('stable');
 	'acColorOne' => '#ff0000',
 	'acColorTwo' => '#00ff00',
 	'hideTimer' => false,
-	'h2Text' => 'Ja moin!',
+	'h2Text' => '',
 	'viewSiteKey' => 'ac2020'
 ];*/
 $acDevelopment = false;
@@ -27,12 +27,11 @@ $acMultisiteSiteConfigs = false;
 $acBrandingFrontend = true;
 $acBrandingBackend = true;
 /* Theme */
-if (is_admin()) {
-	if (isset($_COOKIE['isAcrodeAdmin'])) {
-		$acBrandingBackend = !filter_var($_COOKIE['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
-	}
+if (isset($_COOKIE['isAcrodeAdmin'])) {
+	$acBrandingBackend = $_COOKIE['isAcrodeAdmin'] != true && $_COOKIE['isAcrodeAdmin'] != 1;
+} else if (is_admin()) {
 	if (isset($_GET['isAcrodeAdmin'])) {
-		$cookieValue = filter_var($_GET['isAcrodeAdmin'], FILTER_VALIDATE_BOOLEAN);
+		$cookieValue = $_GET['isAcrodeAdmin'] != true && $_GET['isAcrodeAdmin'] != 1;
 		setcookie('isAcrodeAdmin', $cookieValue);
 		$acBrandingBackend = !$cookieValue;
 	}
@@ -119,11 +118,12 @@ function acrode_remove_version_info()
 }
 function acrode_frontend_backlink()
 {
-	?>
+?>
 	<style>
 		body {
 			position: relative;
 		}
+
 		#acrode-wpauthor {
 			position: absolute;
 			left: 3px;
@@ -136,11 +136,13 @@ function acrode_frontend_backlink()
 <?php
 }
 /* Override default footer */
-function et_get_original_footer_credits() {
-	return sprintf( __('Designed by %1$s | Powered by %2$s', 'Divi' ), '<a href="https://acrode.com" title="acrode | Digital Engineers" target="_blank">acrode</a>', '<a href="http://www.wordpress.org">WordPress</a>');
+function et_get_original_footer_credits()
+{
+	return sprintf(__('Designed by %1$s | Powered by %2$s', 'Divi'), '<a href="https://acrode.com" title="acrode | Digital Engineers" target="_blank">acrode</a>', '<a href="http://www.wordpress.org">WordPress</a>');
 }
 /* Hide login errors */
-function no_wordpress_errors() {
+function no_wordpress_errors()
+{
 	return '&#9888; ' . __('Invalid');
 }
 if ($acBrandingFrontend) {
@@ -164,18 +166,18 @@ if (!isset($_GET['acAdmin'])) {
 }
 
 
-function login_function() {
-    add_filter('gettext', 'username_change', 20, 3);
-    function username_change( $translated_text, $text ) 
-    {
-        if ($text === 'Username or Email Address') 
-        {
-            $translated_text = __('Username');
-        }
-        return $translated_text;
-    }
+function login_function()
+{
+	add_filter('gettext', 'username_change', 20, 3);
+	function username_change($translated_text, $text)
+	{
+		if ($text === 'Username or Email Address') {
+			$translated_text = __('Username');
+		}
+		return $translated_text;
+	}
 }
-add_action( 'login_head', 'login_function' );
+add_action('login_head', 'login_function');
 
 /* Theme */
 add_shortcode('acrode_html_sitemap', 'acrode_get_html_sitemap');
