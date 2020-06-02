@@ -442,8 +442,6 @@ class AcrodeBrandingFilters
 			if (isset($_GET['page']) && $_GET['page'] == 'et_divi_options') {
 				add_filter('et_core_portability_args_epanel', array('AcrodeBrandingFilters', 'filterPortabilityArgs'));
 			}
-		} else {
-			add_filter('show_admin_bar', '__return_false');
 		}
 
 		// White label Login

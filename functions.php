@@ -159,7 +159,7 @@ if (!is_admin()) {
 }
 
 /* Hide editors */
-if (!isset($_GET['acAdmin'])) {
+if (!$acBrandingBackend) {
 	add_action('admin_menu', 'acrode_remove_editor_menu', 1);
 }
 
