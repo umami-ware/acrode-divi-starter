@@ -10,3 +10,6 @@ Version:        2.7.3
 
 /* =Theme customization starts here
 ------------------------------------------------------- */
+#wp-admin-bar-site-name, #wp-admin-bar-wp-rocket, #wp-admin-bar-wpseo-menu, #wp-admin-bar-comments, #wp-admin-bar-kinsta-cache {
+  display: none
+}
