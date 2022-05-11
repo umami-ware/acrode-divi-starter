@@ -39,7 +39,7 @@ if ($acCustomTheme) {
 	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
 	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/custom.php';
 	$acMultisiteSiteConfigs = is_multisite() && $acMultisiteSiteConfigs;
-	if ($acMultisiteCustomConfigs) {
+	if ($acMultisiteSiteConfigs) {
 		include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/' . get_current_blog_id() . '/settings.php';
 		include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/' . get_current_blog_id() . '/custom.php';
 	}
