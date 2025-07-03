@@ -2,7 +2,9 @@
 
 // https://github.com/YahnisElsts/plugin-update-checker v.4.9
 require __DIR__ . '/acrode/plugin-update-checker/plugin-update-checker.php';
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker((
 	'https://github.com/umami-ware/acrode-divi-starter',
 	__FILE__, //Full path to the main plugin file or functions.php.
 	'acrode-divi-starter'
