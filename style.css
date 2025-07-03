@@ -5,11 +5,8 @@ Description:    Theme by Acrode.
 Author:         acrode
 Author URI:     https://acrode.com
 Template:       Divi 
-Version:        3.0.1
+Version:        3.0.2
 */
 
 /* =Theme customization starts here
 ------------------------------------------------------- */
-#wp-admin-bar-site-name, #wp-admin-bar-wp-rocket, #wp-admin-bar-wpseo-menu, #wp-admin-bar-comments, #wp-admin-bar-kinsta-cache {
-  display: none
-}

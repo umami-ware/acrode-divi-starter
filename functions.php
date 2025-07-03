@@ -25,15 +25,7 @@ $myUpdateChecker->setBranch('stable');
 $acDevelopment = false;
 $acMultisiteSiteConfigs = false;
 $acBrandingFrontend = true;
-$acBrandingBackend = true;
 /* Theme */
-if (isset($_COOKIE['isAcrodeAdmin'])) {
-	$acBrandingBackend = $_COOKIE['isAcrodeAdmin'] != true && $_COOKIE['isAcrodeAdmin'] != 1;
-} else if (is_admin() && isset($_GET['isAcrodeAdmin'])) {
-	$cookieValue = $_GET['isAcrodeAdmin'] == true || $_GET['isAcrodeAdmin'] == 1;
-	setcookie('isAcrodeAdmin', $cookieValue);
-	$acBrandingBackend = !$cookieValue;
-}
 $acCustomTheme = is_dir(ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode');
 if ($acCustomTheme) {
 	include ABSPATH . 'wp-content/acrode/acrode-divi-starter/acrode/settings.php';
@@ -46,9 +38,6 @@ if ($acCustomTheme) {
 }
 if ($acDevelopment) {
 	require __DIR__ . '/acrode/development.php';
-}
-if ($acBrandingBackend) {
-	require __DIR__ . '/acrode/branding.php';
 }
 function acrode_enqueue()
 {
@@ -156,11 +145,6 @@ if (!is_admin()) {
 		return $query;
 	}
 	add_filter('pre_get_posts', 'wpb_search_filter');
-}
-
-/* Hide editors */
-if (!$acBrandingBackend) {
-	add_action('admin_menu', 'acrode_remove_editor_menu', 1);
 }
 
 
